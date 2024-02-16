@@ -1,56 +1,153 @@
-import React, { useState, useEffect } from 'react';
-// import './PomodoroTimer.css'; // You can style it using CSS
+// PomodoroTimer.js
+import React, { useState, useEffect } from "react";
+import "./PomodoroTimer.css";
 
 const PomodoroTimer = () => {
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  // State variables
+  const [sessionLength, setSessionLength] = useState(30);
+  const [breakLength, setBreakLength] = useState(5);
+  const [countdown, setCountdown] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(sessionLength * 60);
+  const [countType, setCountType] = useState(undefined);
 
+  // Effect for starting or resetting the timer
+  useEffect(() => {
+    if (countType === undefined) {
+      setRemainingTime(sessionLength * 60);
+    }
+  }, [countType, sessionLength]);
+
+  // Effect for updating the countdown
   useEffect(() => {
     let interval;
-
-    if (isActive) {
+    if (countType !== undefined) {
       interval = setInterval(() => {
-        if (seconds === 0) {
-          if (minutes === 0) {
-            // Timer is complete, switch to break or work mode
-            setIsActive(false);
-            setMinutes(5); // Adjust break time as needed
-            // You can add a sound notification here if desired
-          } else {
-            // Move to the next minute
-            setMinutes((prevMinutes) => prevMinutes - 1);
-            setSeconds(59);
+        setRemainingTime((prevTime) => {
+          if (prevTime <= 0) {
+            if (countType === "session") {
+              startBreak();
+            } else {
+              startSession();
+            }
+            return 0;
           }
-        } else {
-          // Decrease seconds
-          setSeconds((prevSeconds) => prevSeconds - 1);
-        }
+          return prevTime - 1;
+        });
       }, 1000);
     }
 
     return () => clearInterval(interval);
-  }, [isActive, minutes, seconds]);
+  }, [countType]);
 
-  const toggleTimer = () => {
-    setIsActive(!isActive);
+  // Function to start a session
+  const startSession = () => {
+    setCountType("session");
+    setCountdown(sessionLength * 60);
   };
 
-  const resetTimer = () => {
-    setIsActive(false);
-    setMinutes(25);
-    setSeconds(0);
+  // Function to start a break
+  const startBreak = () => {
+    setCountType("break");
+    setCountdown(breakLength * 60);
+  };
+
+  // Function to pause the timer
+  const pause = () => {
+    setCountType(undefined);
+    setRemainingTime(remainingTime);
+  };
+
+  // Function to reset the timer
+  const reset = () => {
+    setCountType(undefined);
+    setRemainingTime(sessionLength * 60);
+  };
+
+  // Function to update session length
+  const updateSession = (num) => {
+    setSessionLength(num);
+    reset();
+  };
+
+  // Function to update break length
+  const updateBreak = (num) => {
+    setBreakLength(num);
+    reset();
   };
 
   return (
     <div className="pomodoro-timer">
-      <div className="timer-display">
-        {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+      <div id="clock">
+        <div id="timer">
+          <div id="title">Ready?</div>
+          <div id="countdown">
+            <span id="minutes">{Math.floor(remainingTime / 60)}</span>
+            <span id="seconds">
+              {(remainingTime % 60).toString().padStart(2, "0")}
+            </span>
+          </div>
+          <div
+            id="controls"
+            className={
+              countType === undefined ? "reset" : countType.toLowerCase()
+            }
+          >
+            <div id="start" onClick={startSession}>
+              <i className="fas fa-play"></i> Start
+            </div>
+            <div id="pause" onClick={pause}>
+              <i className="fas fa-pause"></i> Pause
+            </div>
+            <div id="reset" onClick={reset}>
+              <i className="fas fa-sync-alt"></i> Reset
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="timer-controls">
-        <button onClick={toggleTimer}>{isActive ? 'Pause' : 'Start'}</button>
-        <button onClick={resetTimer}>Reset</button>
-      </div>
+      {/* <div id="options">
+        <div id="session">
+          <i
+            id="incrSession"
+            className="fas fa-angle-double-up"
+            onClick={incrSession}
+          ></i>
+          <span className="option-title">Session</span>
+          <input
+            id="sessionInput"
+            type="number"
+            value={sessionLength}
+            max="60"
+            min="5"
+            onChange={(e) => updateSession(e.target.value)}
+          />
+          <i
+            id="decrSession"
+            className="fas fa-angle-double-down"
+            onClick={decrSession}
+          ></i>
+        </div>
+        <div id="break">
+          <i
+            id="incrBreak"
+            className="fas fa-angle-double-up"
+            onClick={incrBreak}
+          ></i>
+          <span className="option-title">Break</span>
+          <input
+            id="breakInput"
+            type="number"
+            value={breakLength}
+            max="10"
+            min="1"
+            onChange={(e) => updateBreak(e.target.value)}
+          />
+          <i
+            id="decrBreak"
+            className="fas fa-angle-double-down"
+            onClick={decrBreak}
+          ></i>
+        </div>
+      </div> */}
     </div>
   );
 };

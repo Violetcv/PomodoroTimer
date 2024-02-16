@@ -1,0 +1,211 @@
+/* PomodoroTimer.css */
+
+body {
+    align-items: center;
+    background: radial-gradient(ellipse at center, rgba(255, 179, 206, 0) 0%, rgba(255, 180, 199, 0) 43%, rgba(255, 181, 189, 0.43) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    display: flex;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffb3ce', endColorstr='#6effb5bd', GradientType=1);
+    flex-direction: column;
+    font-family: "Open Sans", sans-serif;
+    height: 100vh;
+    justify-content: center;
+    min-width: 184px;
+    overflow-x: hidden;
+    transition: background-color .2s;
+  }
+  
+  .pomodoro-timer {
+    margin-bottom: 43px;
+    max-width: 512px;
+    width: 100%;
+  }
+  
+  #clock {
+    background: url('https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/bg.png') no-repeat center center;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -6.25vw;
+    padding: 40vw 0;
+  
+    @media all and (min-width: 512px) {
+      margin-bottom: -32px;
+      padding: 204px 0;
+    }
+  
+    @media all and (max-width: 184px) {
+      margin-bottom: -20px;
+      margin-bottom: -11.5px;
+      padding: 73px 0;
+    }
+  }
+  
+  #timer {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #title {
+    color: #FF8B8A;
+    font-size: 28px;
+    line-height: 28px;
+    margin: 3px 0 1px;
+  
+    @media all and (max-width: 512px) {
+      font-size: 5.5vw;
+      line-height: 5.5vw;
+    }
+  
+    @media all and (max-width: 184px) {
+      font-size: 10px;
+      line-height: 10px;
+    }
+  }
+  
+  #countdown {
+    color: #ff778d;
+    display: flex;
+    font-size: 43px;
+    font-weight: 600;
+    line-height: 43px;
+  
+    @media all and (max-width: 512px) {
+      font-size: 8.4vw;
+      line-height: 8.4vw;
+    }
+  
+    @media all and (max-width: 184px) {
+      font-size: 15.4px;
+      line-height: 15.4px;
+    }
+  
+    #minutes::after {
+      content: ":";
+    }
+  }
+  
+  #controls {
+    align-items: center;
+    display: flex;
+    color: #FF6292;
+    flex-direction: column;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 15px;
+    margin-top: 5px;
+    text-align: center;
+    text-transform: uppercase;
+  
+    .fas,
+    .svg-inline--fa {
+      position: relative;
+    }
+  
+    #start,
+    #pause,
+    #reset {
+      white-space: nowrap;
+    }
+  
+    #start {
+      .fa-play {
+        font-size: 77%;
+        top: -1px;
+      }
+  
+      &:hover {
+        color: darken(#FF6292, 5);
+      }
+    }
+  
+    #pause {
+      .fa-pause {
+        font-size: 90%;
+        top: -1px;
+        transform: scaleX(.84);
+      }
+  
+      &:hover {
+        color: darken(#FF6292, 5);
+      }
+    }
+  
+    #reset {
+      /* position: absolute; */
+      margin-top: 17.56px;
+      transition: margin-top .43s, opacity .43s;
+  
+      .fa-sync-alt {
+        font-size: 84%;
+      }
+  
+      &:hover {
+        color: darken(#FF6292, 5);
+      }
+    }
+  
+    &.reset {
+      #pause {
+        display: none;
+      }
+  
+      #reset {
+        margin-top: 0;
+        opacity: 0;
+        z-index: -1;
+      }
+    }
+  
+    &.started {
+      #start {
+        display: none;
+      }
+  
+      #reset {
+        opacity: 0;
+      }
+    }
+  
+    &.paused {
+      #pause {
+        display: none;
+      }
+    }
+  
+    @media all and (max-width: 512px) {
+      font-size: 5.5vw;
+      line-height: 5.5vw;
+  
+      #start,
+      #pause,
+      #reset {
+        font-size: 3vw;
+        line-height: 3vw;
+      }
+  
+      #reset {
+        margin-top: 3.43vw;
+      }
+    }
+  
+    @media all and (max-width: 184px) {
+      font-size: 10px;
+      line-height: 10px;
+  
+      #start,
+      #pause,
+      #reset {
+        font-size: 5.5px;
+        line-height: 5.5px;
+      }
+  
+      #reset {
+        margin-top: 6.31px;
+      }
+    }
+  }
+  
