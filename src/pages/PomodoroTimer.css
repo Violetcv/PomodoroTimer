@@ -51,6 +51,7 @@ body {
   
   #title {
     color: #FF8B8A;
+    cursor:auto;
     font-size: 28px;
     line-height: 28px;
     margin: 3px 0 1px;
@@ -135,8 +136,6 @@ body {
     }
   
     #reset {
-      /* position: absolute; */
-      margin-top: 17.56px;
       transition: margin-top .43s, opacity .43s;
   
       .fa-sync-alt {
