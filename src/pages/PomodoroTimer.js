@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './PomodoroTimer.css'; // You can style it using CSS
+// import './PomodoroTimer.css'; // You can style it using CSS
 
 const PomodoroTimer = () => {
   const [minutes, setMinutes] = useState(25);
